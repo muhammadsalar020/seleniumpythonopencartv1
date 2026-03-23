@@ -1,0 +1,11 @@
+03/19/2026 03:04:02 PM - INFO - ====== WebDriver manager ======
+03/19/2026 03:04:03 PM - INFO - Get LATEST chromedriver version for google-chrome
+03/19/2026 03:04:03 PM - INFO - Get LATEST chromedriver version for google-chrome
+03/19/2026 03:04:03 PM - INFO - Driver [/Users/mohammmedsaeed/.wdm/drivers/chromedriver/mac64/145.0.7632.117/chromedriver-mac-arm64/chromedriver] found in cache
+03/19/2026 03:04:06 PM - INFO - **** test_account_reg started ****
+03/19/2026 03:07:59 PM - INFO - **** test_account_reg started ****
+03/19/2026 03:08:04 PM - INFO - Opening Home Page
+03/19/2026 03:08:04 PM - INFO - Clicked My Account
+03/19/2026 03:08:04 PM - INFO - Clicked Register
+03/19/2026 03:08:06 PM - INFO - **** TEST PASSED ****
+03/19/2026 03:08:06 PM - INFO - **** test_account_reg finished ****
