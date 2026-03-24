@@ -1,6 +1,5 @@
 import pytest
 import os
-from datetime import datetime
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -64,16 +63,93 @@ def pytest_configure(config):
     if not os.path.exists(report_dir):
         os.makedirs(report_dir)
 
-    config.option.htmlpath = os.path.join(
-        report_dir,
-        datetime.now().strftime("%d-%m-%Y_%H-%M-%S") + ".html"
-    )
+    # 🔥 FIX: static report name for Jenkins
+    config.option.htmlpath = os.path.join(report_dir, "report.html")
 
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_metadata(metadata):
     metadata.pop("JAVA_HOME", None)
     metadata.pop("Plugins", None)
+
+
+    
+# import pytest
+# import os
+# from datetime import datetime
+#
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service as ChromeService
+# from selenium.webdriver.firefox.service import Service as FirefoxService
+# from selenium.webdriver.chrome.options import Options as ChromeOptions
+# from selenium.webdriver.firefox.options import Options as FirefoxOptions
+#
+# from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.firefox import GeckoDriverManager
+#
+#
+# # ================= Browser Setup ================= #
+#
+# def pytest_addoption(parser):
+#     parser.addoption("--browser", action="store", default="chrome", help="browser type")
+#
+#
+# @pytest.fixture()
+# def setup(request):
+#     browser = request.config.getoption("--browser")
+#
+#     if browser == "chrome":
+#         chrome_options = ChromeOptions()
+#         chrome_options.add_argument("--headless=new")
+#         chrome_options.add_argument("--no-sandbox")
+#         chrome_options.add_argument("--disable-dev-shm-usage")
+#         chrome_options.add_argument("--window-size=1920,1080")
+#
+#         driver = webdriver.Chrome(
+#             service=ChromeService(ChromeDriverManager().install()),
+#             options=chrome_options
+#         )
+#
+#     elif browser == "firefox":
+#         firefox_options = FirefoxOptions()
+#         firefox_options.add_argument("--headless")
+#         firefox_options.add_argument("--width=1920")
+#         firefox_options.add_argument("--height=1080")
+#
+#         driver = webdriver.Firefox(
+#             service=FirefoxService(GeckoDriverManager().install()),
+#             options=firefox_options
+#         )
+#
+#     else:
+#         raise Exception("Browser not supported")
+#
+#     driver.maximize_window()
+#     yield driver
+#     driver.quit()
+#
+#
+# # ================= HTML Report ================= #
+#
+# def pytest_configure(config):
+#     config._metadata['Project Name'] = 'Opencart'
+#     config._metadata['Module Name'] = 'CustRegistration'
+#     config._metadata['Tester'] = 'Ahmad'
+#
+#     report_dir = os.path.join(os.getcwd(), "reports")
+#     if not os.path.exists(report_dir):
+#         os.makedirs(report_dir)
+#
+#     config.option.htmlpath = os.path.join(
+#         report_dir,
+#         datetime.now().strftime("%d-%m-%Y_%H-%M-%S") + ".html"
+#     )
+#
+#
+# @pytest.hookimpl(optionalhook=True)
+# def pytest_metadata(metadata):
+#     metadata.pop("JAVA_HOME", None)
+#     metadata.pop("Plugins", None)
 
 
 # import pytest
