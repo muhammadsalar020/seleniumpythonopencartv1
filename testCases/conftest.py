@@ -55,25 +55,28 @@ def setup(request):
 # ================= HTML Report ================= #
 
 def pytest_configure(config):
-    config._metadata['Project Name'] = 'Opencart'
-    config._metadata['Module Name'] = 'CustRegistration'
-    config._metadata['Tester'] = 'Ahmad'
-
     report_dir = os.path.join(os.getcwd(), "reports")
     if not os.path.exists(report_dir):
         os.makedirs(report_dir)
 
-    # 🔥 FIX: static report name for Jenkins
+    # 🔥 FIX: static report name
     config.option.htmlpath = os.path.join(report_dir, "report.html")
+
+    # 🔥 SAFE metadata handling (IMPORTANT)
+    if hasattr(config, "_metadata"):
+        config._metadata['Project Name'] = 'Opencart'
+        config._metadata['Module Name'] = 'CustRegistration'
+        config._metadata['Tester'] = 'Ahmad'
 
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_metadata(metadata):
-    metadata.pop("JAVA_HOME", None)
-    metadata.pop("Plugins", None)
+    if metadata:
+        metadata.pop("JAVA_HOME", None)
+        metadata.pop("Plugins", None)
 
 
-    
+
 # import pytest
 # import os
 # from datetime import datetime
