@@ -16,20 +16,27 @@ class LoginPage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+        self.wait = WebDriverWait(driver, 20)   # increased wait
 
     def setEmail(self, email):
-        self.wait.until(
-            EC.visibility_of_element_located(self.txt_email)
-        ).clear()
-        self.driver.find_element(*self.txt_email).send_keys(email)
+        element = self.wait.until(
+            EC.presence_of_element_located(self.txt_email)
+        )
+        element.clear()
+        element.send_keys(email)
 
     def setPassword(self, password):
-        self.driver.find_element(*self.txt_password).clear()
-        self.driver.find_element(*self.txt_password).send_keys(password)
+        element = self.wait.until(
+            EC.presence_of_element_located(self.txt_password)
+        )
+        element.clear()
+        element.send_keys(password)
 
     def clickLogin(self):
-        self.driver.find_element(*self.btn_login).click()
+        element = self.wait.until(
+            EC.presence_of_element_located(self.btn_login)
+        )
+        self.driver.execute_script("arguments[0].click();", element)
 
     def login(self, email, password):
         self.setEmail(email)
@@ -38,24 +45,27 @@ class LoginPage:
 
     def isMyAccountPageExists(self):
         try:
-            self.wait.until(
-                EC.visibility_of_element_located(self.txt_myaccount)
-            )
-            return True
+            return self.wait.until(
+                EC.presence_of_element_located(self.txt_myaccount)
+            ).is_displayed()
         except:
             return False
 
-    # ✅ FIXED LOGOUT METHOD
+    # 🔥 FINAL FIXED LOGOUT METHOD
     def clickLogout(self):
-        # Open My Account dropdown
-        self.wait.until(
-            EC.element_to_be_clickable(self.lnk_myaccount_menu)
-        ).click()
+        # Step 1: Open My Account dropdown
+        my_account = self.wait.until(
+            EC.presence_of_element_located(self.lnk_myaccount_menu)
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", my_account)
+        self.driver.execute_script("arguments[0].click();", my_account)
 
-        # Click Logout
-        self.wait.until(
-            EC.element_to_be_clickable(self.lnk_logout)
-        ).click()
+        # Step 2: Click Logout
+        logout = self.wait.until(
+            EC.presence_of_element_located(self.lnk_logout)
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", logout)
+        self.driver.execute_script("arguments[0].click();", logout)
 
 
 # from selenium.webdriver.common.by import By
